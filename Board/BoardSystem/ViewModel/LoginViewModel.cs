@@ -9,5 +9,7 @@ namespace BoardSystem.ViewModel
 
         [Required(ErrorMessage = "ユーザーパスワードを入力してください。")]
         public string UserPassword { get; set; }
+
+        public string UserLogin { get; set; }
     }
 }

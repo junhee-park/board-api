@@ -87,6 +87,7 @@ namespace BoardSystem.Controllers
             {
                 return RedirectToAction("Login", "Account");
             }
+            ViewBag.id = HttpContext.Session.GetString("USER_LOGIN_KEY");
             //using (var db = new BoardSystemContext())
             //{
             //    Board board;
@@ -144,22 +145,23 @@ namespace BoardSystem.Controllers
             {
                 return RedirectToAction("Login", "Account");
             }
-            using (var db = new BoardSystemContext())
-            {
-                Board board;
-                try
-                {
-                    board = db.Boards.Find(boardNum);
-                    db.Boards.Remove(board);
-                    db.SaveChanges();
-                }
-                catch
-                {
-                    return RedirectToAction("Error", "Home");
-                }
-                
-                return Redirect("Index");
-            }
+            //using (var db = new BoardSystemContext())
+            //{
+            //    Board board;
+            //    try
+            //    {
+            //        board = db.Boards.Find(boardNum);
+            //        db.Boards.Remove(board);
+            //        db.SaveChanges();
+            //    }
+            //    catch
+            //    {
+            //        return RedirectToAction("Error", "Home");
+            //    }
+
+            //    return Redirect("Index");
+            //}
+            return View();
         }
 
         public IActionResult DeleteComment(int boardNum, int commentNum)
@@ -168,54 +170,55 @@ namespace BoardSystem.Controllers
             {
                 return RedirectToAction("Login", "Account");
             }
-            using (var db = new BoardSystemContext())
-            {
-                Comment comment;
-                try
-                {
-                    comment = db.Comments.Find(commentNum);
-                    db.Comments.Remove(comment);
-                    db.SaveChanges();
-                }
-                catch
-                {
-                    return RedirectToAction("Error", "Home");
-                }
-                return Redirect("Detail?boardNum=" + boardNum);
-            }
+            //using (var db = new BoardSystemContext())
+            //{
+            //    Comment comment;
+            //    try
+            //    {
+            //        comment = db.Comments.Find(commentNum);
+            //        db.Comments.Remove(comment);
+            //        db.SaveChanges();
+            //    }
+            //    catch
+            //    {
+            //        return RedirectToAction("Error", "Home");
+            //    }
+            //    return Redirect("Detail?boardNum=" + boardNum);
+            //}
+            return View();
         }
 
         [HttpPost]
-        [ActionName("AddComment")]
-        public IActionResult AddComment()
+        public IActionResult AddComment(Board board)
         {
             if (HttpContext.Session.GetString("USER_LOGIN_KEY") == null)
             {
                 return RedirectToAction("Login", "Account");
             }
-            string commentContents = Request.Form["CommentContents"].ToString();
-            string userId = Request.Form["UserId"].ToString();
-            int boardNum = int.Parse(Request.Form["BoardNum"].ToString());
-            Comment comment = new Comment
-            {
-                BoardNum = boardNum,
-                CommentContents = commentContents,
-                UserId = userId
-            };
-            using (var db = new BoardSystemContext())
-            {
-                try
-                {
-                    db.Comments.Add(comment);
-                    db.SaveChanges();
-                }
-                catch
-                {
-                    return RedirectToAction("Error", "Home");
-                }
-                
-                return Redirect("Detail?boardNum="+ boardNum);
-            }
+            //string commentContents = Request.Form["CommentContents"].ToString();
+            //string userId = Request.Form["UserId"].ToString();
+            //int boardNum = int.Parse(Request.Form["BoardNum"].ToString());
+            //Comment comment = new Comment
+            //{
+            //    BoardNum = boardNum,
+            //    CommentContents = commentContents,
+            //    UserId = userId
+            //};
+            //using (var db = new BoardSystemContext())
+            //{
+            //    try
+            //    {
+            //        db.Comments.Add(comment);
+            //        db.SaveChanges();
+            //    }
+            //    catch
+            //    {
+            //        return RedirectToAction("Error", "Home");
+            //    }
+
+            //    return Redirect("Detail?boardNum="+ boardNum);
+            //}
+            return View();
         }
 
     }

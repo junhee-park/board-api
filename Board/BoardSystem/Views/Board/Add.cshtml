@@ -27,7 +27,6 @@
     function dataAction() {
         var arrayData = $('#dataAddForm').serializeArray();
         var userId = @ViewBag.id;
-        alert(userId);
         $.ajax({
             type: "post",
             dataType: "json",

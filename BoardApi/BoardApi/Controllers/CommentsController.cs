@@ -39,8 +39,22 @@ namespace BoardApi.Controllers
         }
 
         // POST: api/Comments
-        public void Post([FromBody]string value)
+        public void Post([FromBody]Comment comment)
         {
+            using (var db = new BoardSystemContext())
+            {
+                try
+                {
+                    db.Comments.Add(comment);
+                    db.SaveChanges();
+                }
+                catch
+                {
+                    
+                }
+
+                
+            }
         }
 
         // PUT: api/Comments/5
@@ -49,8 +63,23 @@ namespace BoardApi.Controllers
         }
 
         // DELETE: api/Comments/5
-        public void Delete(int id)
+        public void Delete(int commentNum)
         {
+            using (var db = new BoardSystemContext())
+            {
+                Comment comment;
+                try
+                {
+                    comment = db.Comments.Find(commentNum);
+                    db.Comments.Remove(comment);
+                    db.SaveChanges();
+                }
+                catch
+                {
+                    
+                }
+                
+            }
         }
     }
 }

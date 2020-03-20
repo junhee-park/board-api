@@ -98,8 +98,24 @@ namespace BoardApi.Controllers
         }
 
         // DELETE: api/Boards/5
-        public void Delete(int id)
+        public void Delete(int boardNum)
         {
+            using (var db = new BoardSystemContext())
+            {
+                Board board;
+                try
+                {
+                    board = db.Boards.Find(boardNum);
+                    db.Boards.Remove(board);
+                    db.SaveChanges();
+                }
+                catch
+                {
+                    
+                }
+
+                
+            }
         }
     }
 }

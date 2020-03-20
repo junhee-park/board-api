@@ -23,8 +23,9 @@ namespace BoardApi.Controllers
             Board board;
             using (var db = new BoardSystemContext())
             {
-
                 board = db.Boards.FirstOrDefault(u => u.BoardNum.Equals(boardNum));
+                db.Entry(board).Entity.BoardViews = board.BoardViews + 1;
+                db.SaveChanges();
 
             }
             return board;

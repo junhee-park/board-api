@@ -223,3 +223,5 @@ C:\Users\hijun\source\repos\BoardApi\BoardApi\bin\Microsoft.Extensions.ObjectPoo
 C:\Users\hijun\source\repos\BoardApi\BoardApi\bin\Microsoft.Extensions.PlatformAbstractions.xml
 C:\Users\hijun\source\repos\BoardApi\BoardApi\bin\Microsoft.Net.Http.Headers.xml
 C:\Users\hijun\source\repos\BoardApi\BoardApi\bin\System.Text.Encodings.Web.xml
+C:\Users\hijun\source\repos\BoardApi\BoardApi\bin\System.Web.Http.Cors.dll
+C:\Users\hijun\source\repos\BoardApi\BoardApi\bin\System.Web.Http.Cors.xml

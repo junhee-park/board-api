@@ -7,34 +7,34 @@
     </div>
 </div>
 
-<div class="row">
+<div class="row" id="deleteButton">
     <div class="col-lg-10">
         <div class="panel panel-default" id="board">
 
 
         </div>
-        @if (Context.Session.GetString("USER_LOGIN_KEY").Equals(@Model.UserId) || Context.Session.GetString("USER_LOGIN_KEY").Equals("root"))
+        @*@if (Context.Session.GetString("USER_LOGIN_KEY").Equals(@Model.UserId) || Context.Session.GetString("USER_LOGIN_KEY").Equals("root"))
         {
             <div class="panel-footer">
                 <a class="btn btn-primary" asp-controller="Board" asp-action="Delete" asp-route-boardNum="@Model.BoardNum">削除</a>
             </div>
-        }
+        }*@
     </div>
 </div>
 <div class="row">
     <div class="col-lg-10">
-        <form class="form-horizontal" method="post" action="AddComment">
+        <form class="form-horizontal" id="commentForm" method="post" action="" >
             <div class="form-group">
                 <table>
                     <tr><th>
     <textarea class="form-control" name="CommentContents" id="CommentContents" placeholder="内容入力"></textarea>
     <span class="text-danger"></span>
 </th>
-                    <th><button type="submit" class="btn btn-primary">コメント入力</button></th></tr>
+                    <th><button type="submit" onclick="addValue()" class="btn btn-primary">コメント入力</button></th></tr>
                 </table>
                 
-                <input type="hidden" name="UserId" value="@Context.Session.GetString("USER_LOGIN_KEY")" />
-                <input type="hidden" name="BoardNum" value="@Model.BoardNum" />
+                <input type="hidden" name="UserId" id="UserId" value="" />
+                <input type="hidden" name="BoardNum" id="BoardNum" value="" />
             </div>
             <div class="form-group">
                 
@@ -46,13 +46,13 @@
             <th>ユーザー</th>
             <th>コメント</th>
             <th>日付</th>
-            <th></th>
         </tr>
          
     </table>
 
 </div>
 <script>
+    var root = "root";
     var boardContents;
     frmUrl = location.href;
     varCut = frmUrl.indexOf("?");
@@ -62,8 +62,9 @@
     for (i = 0; i < forCount; i++) {
         eval(varList[i]);
     }
-    alert(boardNum);
+    
     $(window).load(function () {
+        
         $.ajax({
             type: "get",
             dataType: "json",
@@ -75,7 +76,11 @@
                     '<div class="panel-heading">アクセス数：' + result.BoardViews + '</div>' +
                     '<div class="panel-body">' + result.BoardContents + '</div>'
                 );
-                $("#title").append('<h3 class="page-header" >題目 -' + result.BoardTitle +' </h3>');
+                $("#title").append('<h3 class="page-header" >題目 -' + result.BoardTitle + ' </h3>');
+                if (userId == result.UserId || userId==root) {
+                    $("#deleteButton").append('<a class="btn btn-primary" onclick="deleteBoard()">削除</a>');
+                }
+               
             }
         });
     });
@@ -89,15 +94,59 @@
             success: function (result) {
                 $.each(result, function (index, item) {
                     console.log(item);
-                    $("#commentTable").append('<tr>' +
+                    $("#commentTable").append('<tbody><tr>' +
                         '<td>' + item.UserId + '</td>' +
                         '<td>' + item.CommentContents + '</td>' +
-                        '<td>' + item.CommentDate + '</td>' +
-                        '<td></td>' +
-                        '</tr>');
+                        '<td>' + item.CommentDate + '</td>');
+                    if (userId == item.UserId || userId == root) {
+                        $("#commentTable").append('<td><a class="btn btn-primary" onclick="deleteComment(' + item.CommentNum + ')">削除</a></td>');
+                    }
+                    $("#commentTable").append('</tr></tbody>');
 
                 });
             }
         });
     });
+</script>
+<script>
+    var userId = @ViewBag.id;
+    function addValue() {
+        $("#UserId").attr("value", userId);
+        $("#BoardNum").attr("value", boardNum);
+        var commentContents = $("#CommentContents").val();
+        $.ajax({
+            type: "post",
+            dataType: "json",
+            url: "http://localhost:1455/api/Comments",
+            data: {
+                "BoardNum": boardNum,
+                "CommentContents": commentContents,
+                "UserId": userId
+            },
+            success: function (result) {
+                console.log(result);
+
+            }
+        });
+    }
+</script>
+<script>
+    function deleteBoard() {
+        $.ajax({
+            type: "delete",
+            dataType: "json",
+            url: "http://localhost:1455/api/Boards?boardNum=" + boardNum
+            
+        });
+    }
+</script>
+<script>
+    function deleteComment(commentNum) {
+        $.ajax({
+            type: "delete",
+            dataType: "json",
+            url: "http://localhost:1455/api/Comments?commentNum=" + commentNum
+
+        });
+    }
 </script>

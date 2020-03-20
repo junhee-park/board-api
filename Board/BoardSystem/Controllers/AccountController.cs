@@ -21,7 +21,8 @@ namespace BoardSystem.Controllers
         [HttpPost]
         public IActionResult Login(LoginViewModel model)
         {
-            if(false)
+            string a = model.UserLogin;
+            if(model.UserLogin.Equals("0"))
             {
                 
                 ModelState.AddModelError(string.Empty, "ユーザーのIDもしくはパスワードが正しくありません。");

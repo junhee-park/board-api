@@ -55,10 +55,10 @@ namespace BoardApi.Controllers
             return accountProduct;
         }
 
-        public bool Post([FromBody]User user, int id)
+        public string Post([FromBody]User user, int id)
         {
             User loginUser = null;
-            bool login = false;
+            string login = "0";
             using (var db = new BoardSystemContext())
             {
                 try
@@ -66,7 +66,7 @@ namespace BoardApi.Controllers
                     loginUser = db.Users.FirstOrDefault(u => u.UserId.Equals(user.UserId) && u.UserPassword.Equals(user.UserPassword));
                     if (loginUser != null)
                     {
-                        login = true;
+                        login = "1";
                     }
                     
                 }
