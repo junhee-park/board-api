@@ -1,0 +1,45 @@
+﻿@model BoardSystem.Models.User
+<h2>会員加入</h2>
+
+<form class="form-horizontal" method="post" id="accountForm" asp-controller="Account" asp-action="Register">
+    <div class="form-group">
+        <label>ユーザー ID</label>
+        <input type="text" class="form-control" asp-for="UserId"  placeholder="ユーザー ID 入力" />
+        <span class="text-danger" asp-validation-for="UserId"></span>
+    </div>
+    <div class="form-group">
+        <label>ユーザー Pw</label>
+        <input type="password" class="form-control" asp-for="UserPassword" placeholder="ユーザー Pw 入力" />
+        <span class="text-danger" asp-validation-for="UserPassword"></span>
+    </div>
+    <div class="form-group">
+        <label>ユーザー 名前</label>
+        <input type="text" class="form-control" asp-for="UserName" placeholder="ユーザー 名前入力" />
+        <span class="text-danger" asp-validation-for="UserName"></span>
+    </div>
+
+    <div>
+        <button type="submit" onclick="dataAction()" class="btn btn-primary">会員登録</button>
+    </div>
+</form>
+
+<script>
+    
+    function dataAction() {
+        var arrayData = $('#accountForm').serializeArray();
+        alert(arrayData[0].value);
+        $.ajax({
+            type: "post",
+            dataType: "json",
+            url: "http://localhost:1455/api/User",
+            data: {
+                "UserId": arrayData[0].value,
+                "UserPassWord": arrayData[1].value,
+                "UserName": arrayData[2].value
+            },
+            success: function (result) {
+                @ViewBag.result = result;
+            }
+        });
+    }
+</script>

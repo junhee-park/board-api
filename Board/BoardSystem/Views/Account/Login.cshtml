@@ -1,0 +1,43 @@
+﻿@model BoardSystem.ViewModel.LoginViewModel
+<h2>ログイン</h2>
+
+<form class="form-horizontal" method="post" id="loginForm" asp-controller="Account" asp-action="Login">
+    <div asp-validation-summary="ModelOnly"></div>
+    <div class="form-group">
+        <label>ユーザー id</label>
+        <input type="text" asp-for="UserId" class="form-control" placeholder="ユーザーid入力" />
+        <span class="text-danger" asp-validation-for="UserId"></span>
+    </div>
+    <div class="form-group">
+        <label>パスワード</label>
+        <input type="password" asp-for="UserPassword" class="form-control" placeholder="パスワード入力" />
+        <span class="text-danger" asp-validation-for="UserPassword"></span>
+    </div>
+
+    <div class="form-group">
+        <button type="submit" onclick="dataAction()" class="btn btn-success">ログイン</button>
+    </div>
+</form>
+
+<script>
+
+    function dataAction() {
+        var arrayData = $('#loginForm').serializeArray();
+        alert(arrayData[0].value);
+        $.ajax({
+            type: "post",
+            dataType: "json",
+            url: "http://localhost:1455/api/User/1",
+            data: {
+                "UserId": arrayData[0].value,
+                "UserPassWord": arrayData[1].value,
+                "UserName": null
+            },
+            success: function (result) {
+                console.log(result);
+                
+            }
+        });
+    }
+    
+</script>
